@@ -8,6 +8,40 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Food",
+"language": "GDScript",
+"path": "res://stage/food.gd"
+}, {
+"base": "Node2D",
+"class": "Snake",
+"language": "GDScript",
+"path": "res://snake/snake.gd"
+}, {
+"base": "Area2D",
+"class": "SnakeBodyPart",
+"language": "GDScript",
+"path": "res://snake/snake_body_part.gd"
+}, {
+"base": "Area2D",
+"class": "SnakeHead",
+"language": "GDScript",
+"path": "res://snake/snake_head.gd"
+}, {
+"base": "Area2D",
+"class": "Thorn",
+"language": "GDScript",
+"path": "res://stage/thorn.gd"
+} ]
+_global_script_class_icons={
+"Food": "",
+"Snake": "",
+"SnakeBodyPart": "",
+"SnakeHead": "",
+"Thorn": ""
+}
+
 [application]
 
 config/name="Hungry Snake"
@@ -64,6 +98,7 @@ move_right={
 2d_physics/layer_2="CharacterBody"
 2d_physics/layer_3="Hazard"
 2d_physics/layer_4="Stage"
+2d_physics/layer_5="Food"
 
 [physics]
 
