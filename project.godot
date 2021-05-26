@@ -47,6 +47,8 @@ _global_script_class_icons={
 config/name="Hungry Snake"
 run/main_scene="res://stage/stage.tscn"
 config/icon="res://icon.png"
+config/macos_native_icon="res://icon.icns"
+config/windows_native_icon="res://icon.ico"
 
 [display]
 
