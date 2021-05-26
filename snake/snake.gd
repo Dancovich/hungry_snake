@@ -1,12 +1,14 @@
 class_name Snake
 extends Node2D
 
-signal food_eaten(food)
+signal food_eaten(snake, food)
+signal food_swallowed(snake, qtd_food_swallowed)
 signal dead
 
-const SPEED := 240.0
-const ROTATION_SPEED := 3.5
+const SPEED := 200.0
+const ROTATION_SPEED := 2.2
 const DEFAULT_SIZE := 0.85
+const SIZE_INCREMENT := 0.2
 
 export var snake_body: PackedScene = preload("res://snake/snake_body_part.tscn")
 
@@ -14,13 +16,25 @@ onready var _head: SnakeHead = $SnakeHead
 onready var _anim: AnimationPlayer = $AnimationPlayer
 
 var _body_parts := []
-var _speed := Vector2.DOWN * SPEED
+var _speed := Vector2.RIGHT * SPEED
 var _size := DEFAULT_SIZE
 var _queue_kill := false
 
+func set_snake_position(pos: Vector2) -> void:
+	_head.position = pos
+	for part in _body_parts:
+		part.position = pos
+
 func increase_size() -> void:
-	_size += 0.1
+	_size += SIZE_INCREMENT
 	_head.scale_head = _size
+
+func count_size_increments() -> int:
+	var value := (_size - DEFAULT_SIZE) / SIZE_INCREMENT
+	return int(round(value))
+
+func count_body_parts() -> int:
+	return _body_parts.size()
 
 func reset_size() -> void:
 	_size = DEFAULT_SIZE
@@ -73,9 +87,16 @@ func _ready() -> void:
 	_head.connect("body_entered", self, "_on_object_contact")
 	
 	add_body_part()
-	add_body_part()
-	add_body_part()
-	add_body_part()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if !_queue_kill && \
+			_size > DEFAULT_SIZE && \
+			event.is_action_pressed("eat"):
+		get_tree().set_input_as_handled()
+		var qtd_food_swallowed := count_size_increments()
+		reset_size()
+		add_body_part()
+		emit_signal("food_swallowed", self, qtd_food_swallowed)
 
 func _physics_process(delta: float) -> void:
 	if _queue_kill:
@@ -118,9 +139,9 @@ func _on_object_contact(area) -> void:
 		return
 	
 	if area is Food && area.active:
-		emit_signal("food_eaten", area)
 		increase_size()
+		emit_signal("food_eaten", self, area)
 	elif area is Thorn && area.active:
 		kill()
-	elif !(area is Thorn):
+	elif area is TileMap:
 		kill()

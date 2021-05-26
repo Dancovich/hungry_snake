@@ -15,7 +15,7 @@ func activate() -> void:
 func _ready() -> void:
 	visible = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if !active && !_anim.is_playing():
 		visible = true
 		activate()
