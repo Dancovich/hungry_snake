@@ -22,63 +22,44 @@ jobs:
           ITCH_USER: dancovich
           PACKAGE: hs-windows-x64.zip
           VERSION: ${{ steps.download-windows-x64.outputs.version }}
-  release_windows_x86:
+  release_macos:
     runs-on: ubuntu-latest
     steps:
-      - name: download Windows x86
-        id: download-windows-x86
+      - name: download MacOS
+        id: download-macos
         uses: dsaltares/fetch-gh-release-asset@master
         with:
           version: "latest"
-          file: hs-windows-x86.zip
+          file: hs-macosx.zip
           token: "${{ secrets.GH_CREDENTIALS }}"
-      - name: deploy to itch.io (Windows 64bit)
+      - name: deploy to itch.io (MacOS)
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: windows
+          CHANNEL: mac
           ITCH_GAME: hungry-snake
           ITCH_USER: dancovich
-          PACKAGE: hs-windows-x86.zip
-          VERSION: ${{ steps.download-windows-x86.outputs.version }}
-  # release_macos:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: download MacOS
-  #       id: download-macos
-  #       uses: dsaltares/fetch-gh-release-asset@master
-  #       with:
-  #         version: "latest"
-  #         file: corge-macos.zip
-  #         token: "${{ secrets.GH_CREDENTIALS }}"
-  #     - name: deploy to itch.io (MacOS)
-  #       uses: josephbmanley/butler-publish-itchio-action@master
-  #       env:
-  #         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-  #         CHANNEL: mac
-  #         ITCH_GAME: corg-e
-  #         ITCH_USER: bitbrain
-  #         PACKAGE: corge-macos.zip
-  #         VERSION: ${{ steps.download-macos.outputs.version }}
-  # release_linux:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: download Linux
-  #       id: download-linux
-  #       uses: dsaltares/fetch-gh-release-asset@master
-  #       with:
-  #         version: "latest"
-  #         file: corge-linux.zip
-  #         token: "${{ secrets.GH_CREDENTIALS }}"
-  #     - name: deploy to itch.io (Linux)
-  #       uses: josephbmanley/butler-publish-itchio-action@master
-  #       env:
-  #         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-  #         CHANNEL: linux
-  #         ITCH_GAME: corg-e
-  #         ITCH_USER: bitbrain
-  #         PACKAGE: corge-linux.zip
-  #         VERSION: ${{ steps.download-linux.outputs.version }}
+          PACKAGE: hs-macosx.zip
+          VERSION: ${{ steps.download-macos.outputs.version }}
+  release_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: download Linux
+        id: download-linux
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: "latest"
+          file: hs-linux-x64.zip
+          token: "${{ secrets.GH_CREDENTIALS }}"
+      - name: deploy to itch.io (Linux)
+        uses: josephbmanley/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: linux
+          ITCH_GAME: hungry-snake
+          ITCH_USER: dancovich
+          PACKAGE: hs-linux-x64.zip
+          VERSION: ${{ steps.download-linux.outputs.version }}
   release_html:
     runs-on: ubuntu-latest
     steps:
