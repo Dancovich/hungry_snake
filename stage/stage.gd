@@ -58,6 +58,7 @@ func reset_game() -> void:
 	var entities: Node2D = $Entities
 	
 	for entity in entities.get_children():
+		entity.remove_from_group("spawn_obstacles")
 		entity.queue_free()
 	
 	spawn_snake()
@@ -177,7 +178,7 @@ func _on_food_eaten(snake: Snake, food: Food) -> void:
 	_node_multiplier.text = "x" + str(_multiplier)
 
 func _on_food_swallowed(snake: Snake, qtd_food_swallowed: int) -> void:
-	_score += int(round(qtd_food_swallowed * _multiplier))
+	_score += int(round(qtd_food_swallowed * _multiplier)) * 10
 	_node_score.text = str(_score)
 	_multiplier = 1.0
 	_node_multiplier.text = "x" + str(_multiplier)

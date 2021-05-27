@@ -4,7 +4,7 @@
 [ext_resource path="res://snake/snake_body_part.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 28.5643
+radius = 26.7813
 
 [node name="SnakeBodyPart" type="Area2D"]
 collision_layer = 2

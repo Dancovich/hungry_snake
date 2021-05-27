@@ -2,7 +2,7 @@ class_name SnakeHead
 extends Area2D
 
 const BASE_SIZE := 78.0
-const BASE_COLLISION_RADIUS := 38.0
+const BASE_COLLISION_RADIUS := 35.0
 
 onready var _sprite: Sprite = $Sprite
 onready var _collision: CollisionShape2D = $Collision

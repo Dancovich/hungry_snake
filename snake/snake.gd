@@ -5,10 +5,10 @@ signal food_eaten(snake, food)
 signal food_swallowed(snake, qtd_food_swallowed)
 signal dead
 
-const SPEED := 200.0
+const SPEED := 220.0
 const ROTATION_SPEED := 2.2
 const DEFAULT_SIZE := 0.85
-const SIZE_INCREMENT := 0.2
+const SIZE_INCREMENT := 0.08
 
 export var snake_body: PackedScene = preload("res://snake/snake_body_part.tscn")
 
