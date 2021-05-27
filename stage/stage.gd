@@ -12,9 +12,12 @@ onready var _spawn_tl: Position2D = $SpawnTL
 onready var _spawn_bl: Position2D = $SpawnBL
 onready var _spawn_tr: Position2D = $SpawnTR
 
-onready var _node_score: Label = $Hud/GridContainer/Score
-onready var _node_multiplier: Label = $Hud/GridContainer/Multiplier
-onready var _node_score_grid: GridContainer = $Hud/GridContainer
+onready var _node_score: Label = $Hud/Score
+onready var _node_multiplier: Label = $Hud/Multiplier
+#onready var _node_score_grid: GridContainer = $Hud/GridContainer
+onready var _gameover_screen: Node2D = $GameoverLayer/Gameover
+onready var _gameover_restart_button: TextureButton = $GameoverLayer/Gameover/RestartButton
+onready var _gameover_titlescreen_button: TextureButton = $GameoverLayer/Gameover/TitleScreenButton
 
 var _snake: Snake
 var _score := 0
@@ -29,8 +32,17 @@ func _physics_process(_delta: float) -> void:
 	spawn_food()
 	spawn_thorn()
 
+func title_screen() -> void:
+	get_tree().change_scene("res://main_scene.tscn")
+
 func reset_game() -> void:
 	randomize()
+	
+	_gameover_restart_button.release_focus()
+	_gameover_restart_button.disabled = true
+	_gameover_titlescreen_button.release_focus()
+	_gameover_titlescreen_button.disabled = true
+	_gameover_screen.visible = false
 	
 	_gameover = false
 	_score = 0
@@ -38,10 +50,10 @@ func reset_game() -> void:
 	_qtd_thorns = 0
 	_node_score.text = str(_score)
 	_node_multiplier.text = "x" + str(_multiplier)
-	_node_score_grid.anchor_left = 1.0
-	_node_score_grid.anchor_right = 1.0
-	_node_score_grid.anchor_top = 0.0
-	_node_score_grid.anchor_bottom = 0.0
+#	_node_score_grid.anchor_left = 1.0
+#	_node_score_grid.anchor_right = 1.0
+#	_node_score_grid.anchor_top = 0.0
+#	_node_score_grid.anchor_bottom = 0.0
 	
 	var entities: Node2D = $Entities
 	
@@ -172,3 +184,8 @@ func _on_food_swallowed(snake: Snake, qtd_food_swallowed: int) -> void:
 
 func _on_snake_dead() -> void:
 	_gameover = true
+	_gameover_screen.final_score = _score
+	_gameover_screen.visible = true
+	_gameover_restart_button.disabled = false
+	_gameover_titlescreen_button.disabled = false
+	_gameover_restart_button.grab_focus()

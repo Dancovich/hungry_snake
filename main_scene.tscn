@@ -1,0 +1,150 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://resources/font_outline_45.tres" type="DynamicFont" id=1]
+[ext_resource path="res://resources/green_button01.png" type="Texture" id=2]
+[ext_resource path="res://resources/green_button00.png" type="Texture" id=3]
+[ext_resource path="res://resources/title.png" type="Texture" id=4]
+[ext_resource path="res://resources/font_outline_30.tres" type="DynamicFont" id=5]
+[ext_resource path="res://resources/arrows.png" type="Texture" id=6]
+[ext_resource path="res://resources/Space_Key_Light.png" type="Texture" id=7]
+[ext_resource path="res://resources/wsad.png" type="Texture" id=8]
+[ext_resource path="res://resources/XboxOne_Dpad.png" type="Texture" id=9]
+[ext_resource path="res://resources/XboxOne_A.png" type="Texture" id=10]
+[ext_resource path="res://resources/XboxOne_Left_Stick.png" type="Texture" id=11]
+[ext_resource path="res://main_scene.gd" type="Script" id=12]
+[ext_resource path="res://resources/green_button02.png" type="Texture" id=13]
+
+[sub_resource type="Animation" id=1]
+resource_name = "pulse"
+length = 4.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Title:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 637.469, 223.614 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Title:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.98, 1.61, 2.17, 2.66, 3.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -3.26461, 0.186331, 4.61395, 0.63927, -3.94462 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Title:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.49, 0.98, 1.61, 2.17, 2.66, 3.15, 3.64 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.07369, 1.13625 ), Vector2( 1, 1 ), Vector2( 1.0259, 1.21818 ), Vector2( 1, 1 ), Vector2( 0.937978, 1.21458 ), Vector2( 1, 1 ), Vector2( 1.13721, 0.966643 ) ]
+}
+
+[node name="MainMenu" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.415686, 0.658824, 0.368627, 1 )
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Sprite" parent="."]
+position = Vector2( 637.469, 223.614 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( -23.0929, 5.79043, 1313.29, 471.167 )
+
+[node name="TextureButton" type="TextureButton" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -153.0
+margin_top = -115.636
+margin_right = 153.0
+margin_bottom = -35.636
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 2 )
+texture_focused = ExtResource( 13 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TextureButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -71.0
+margin_top = -28.0
+margin_right = 71.0
+margin_bottom = 28.0
+custom_fonts/font = ExtResource( 1 )
+text = "START"
+
+[node name="Controls" type="Node2D" parent="."]
+position = Vector2( 393.998, 389.882 )
+
+[node name="Help" type="Label" parent="Controls"]
+margin_top = 50.0
+margin_right = 438.0
+margin_bottom = 167.0
+custom_fonts/font = ExtResource( 5 )
+text = "Move:      ,      ,    or
+
+Swallow Food:       or"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Dpad" type="Sprite" parent="Controls"]
+position = Vector2( 358.802, 50 )
+scale = Vector2( 0.703918, 0.703918 )
+texture = ExtResource( 9 )
+
+[node name="LeftStick" type="Sprite" parent="Controls"]
+position = Vector2( 472.971, 50.0001 )
+scale = Vector2( 0.704, 0.704 )
+texture = ExtResource( 11 )
+
+[node name="Wsad" type="Sprite" parent="Controls"]
+position = Vector2( 265.882, 50 )
+texture = ExtResource( 8 )
+
+[node name="Arrows" type="Sprite" parent="Controls"]
+position = Vector2( 154.379, 50 )
+texture = ExtResource( 6 )
+
+[node name="Space_Key_Light" type="Sprite" parent="Controls"]
+position = Vector2( 330.955, 146.013 )
+texture = ExtResource( 7 )
+
+[node name="XboxOne_A" type="Sprite" parent="Controls"]
+position = Vector2( 453.813, 144.123 )
+scale = Vector2( 0.704, 0.704 )
+texture = ExtResource( 10 )
+
+[node name="TitleAnimation" type="AnimationPlayer" parent="."]
+autoplay = "pulse"
+anims/pulse = SubResource( 1 )
+
+[node name="ControlsAnimation" type="AnimationPlayer" parent="."]
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_start_pressed"]

@@ -1,12 +1,10 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://tilesets/sheet.png" type="Texture" id=1]
 [ext_resource path="res://resources/font_outline_50.tres" type="DynamicFont" id=2]
-[ext_resource path="res://resources/font_outline_red_80.tres" type="DynamicFont" id=3]
-[ext_resource path="res://resources/green_button01.png" type="Texture" id=4]
+[ext_resource path="res://resources/font_whiteoutline_80.tres" type="DynamicFont" id=3]
 [ext_resource path="res://stage/stage.gd" type="Script" id=5]
-[ext_resource path="res://resources/green_button00.png" type="Texture" id=6]
-[ext_resource path="res://resources/font_outline_30.tres" type="DynamicFont" id=7]
+[ext_resource path="res://stage/gameover_screen.tscn" type="PackedScene" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 56, 0, 70, 0, 70, 70, 0, 70, 0, 56, 56, 56 )
@@ -109,82 +107,37 @@ points = PoolVector2Array( 70, 14, 0, 14, 0, 0, 70, 0 )
 [node name="Stage" type="Node2D"]
 script = ExtResource( 5 )
 
+[node name="GameoverLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Gameover" parent="GameoverLayer" instance=ExtResource( 8 )]
+visible = false
+
 [node name="Hud" type="CanvasLayer" parent="."]
 
-[node name="CenterContainer" type="CenterContainer" parent="Hud"]
-margin_left = 25.0
-margin_right = 215.0
-margin_bottom = 98.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureButton" type="TextureButton" parent="Hud/CenterContainer"]
-margin_top = 24.0
-margin_right = 190.0
-margin_bottom = 73.0
-focus_mode = 0
-texture_normal = ExtResource( 6 )
-texture_pressed = ExtResource( 4 )
-
-[node name="Label" type="Label" parent="Hud/CenterContainer"]
-margin_left = 43.0
-margin_top = 30.0
-margin_right = 147.0
-margin_bottom = 67.0
-custom_fonts/font = ExtResource( 7 )
-text = "RESET"
-
-[node name="GridContainer" type="GridContainer" parent="Hud"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -148.0
-margin_right = -20.0
-margin_bottom = 98.0
-grow_horizontal = 0
-rect_min_size = Vector2( 128, 98 )
-size_flags_horizontal = 8
-custom_constants/hseparation = 30
-columns = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Multiplier" type="Label" parent="Hud/GridContainer"]
-margin_right = 75.0
+[node name="Multiplier" type="Label" parent="Hud"]
+margin_left = 48.6942
+margin_right = 123.694
 margin_bottom = 98.0
 grow_horizontal = 0
 rect_min_size = Vector2( 75, 98 )
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.231373, 0.572549, 0.121569, 1 )
 text = "x1"
-align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Score" type="Label" parent="Hud/GridContainer"]
-margin_left = 105.0
-margin_top = 18.0
-margin_right = 128.0
-margin_bottom = 79.0
-grow_horizontal = 0
+[node name="Score" type="Label" parent="Hud"]
+margin_left = 187.694
+margin_top = 26.0
+margin_right = 210.694
+margin_bottom = 87.0
 rect_min_size = Vector2( 23, 61 )
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 2
 uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="Hud"]
-margin_left = 242.0
-margin_top = 32.0
-margin_right = 651.0
-margin_bottom = 69.0
-custom_fonts/font = ExtResource( 7 )
-text = "SPACE: SWALLOW FOOD"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -219,4 +172,7 @@ position = Vector2( 84, 636 )
 [node name="SpawnTR" type="Position2D" parent="."]
 position = Vector2( 1190, 152 )
 
-[connection signal="pressed" from="Hud/CenterContainer/TextureButton" to="." method="reset_game"]
+[connection signal="pressed" from="GameoverLayer/Gameover/RestartButton" to="." method="reset_game"]
+[connection signal="pressed" from="GameoverLayer/Gameover/TitleScreenButton" to="." method="title_screen"]
+
+[editable path="GameoverLayer/Gameover"]
