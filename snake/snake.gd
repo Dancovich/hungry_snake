@@ -6,7 +6,7 @@ signal food_swallowed(snake, qtd_food_swallowed)
 signal dead
 
 const SPEED := 220.0
-const ROTATION_SPEED := 2.2
+const ROTATION_SPEED := deg2rad(360.0)
 const DEFAULT_SIZE := 0.85
 const SIZE_INCREMENT := 0.08
 
@@ -17,6 +17,7 @@ onready var _anim: AnimationPlayer = $AnimationPlayer
 
 var _body_parts := []
 var _speed := Vector2.RIGHT * SPEED
+var _direction := Vector2.RIGHT
 var _size := DEFAULT_SIZE
 var _queue_kill := false
 
@@ -106,15 +107,24 @@ func _physics_process(delta: float) -> void:
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"), \
 		Input.get_action_strength("move_down") - Input.get_action_strength("move_up"))
 	
-	if move == Vector2.ZERO:
-		if _speed == Vector2.ZERO:
-			_speed = Vector2.DOWN * SPEED
-		move = _speed
+	if move != Vector2.ZERO:
+		_direction = move.normalized()
 	
-	var angle_delta := _speed.angle_to(move)
-	_speed = _speed.rotated(angle_delta * delta * ROTATION_SPEED).normalized() * SPEED * delta
+	var delta_angle = _speed.angle_to(_direction)
+	if delta_angle != 0.0:
+		if delta_angle >= 0.0:
+			var angle := ROTATION_SPEED * delta
+			if abs(angle) > abs(delta_angle):
+				angle = delta_angle
+			_speed = _speed.rotated(angle)
+		else:
+			var angle := -ROTATION_SPEED * delta
+			if abs(angle) > abs(delta_angle):
+				angle = delta_angle
+			_speed = _speed.rotated(angle)
+	
+	_speed = _speed.normalized() * SPEED * delta
 	_head.position += _speed
-	
 	_head.rotation = Vector2.DOWN.angle_to(_speed)
 
 	if !_body_parts.empty():
