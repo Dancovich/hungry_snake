@@ -36,6 +36,7 @@ func title_screen() -> void:
 	get_tree().change_scene("res://main_scene.tscn")
 
 func reset_game() -> void:
+	$Music.play(0.0)
 	randomize()
 	
 	_gameover_restart_button.release_focus()

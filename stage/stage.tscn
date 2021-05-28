@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://tilesets/stage.tres" type="TileSet" id=1]
 [ext_resource path="res://resources/font_outline_50.tres" type="DynamicFont" id=2]
 [ext_resource path="res://resources/font_whiteoutline_80.tres" type="DynamicFont" id=3]
+[ext_resource path="res://resources/sounds/bgm.mp3" type="AudioStream" id=4]
 [ext_resource path="res://stage/stage.gd" type="Script" id=5]
 [ext_resource path="res://stage/gameover_screen.tscn" type="PackedScene" id=8]
 
@@ -62,7 +63,7 @@ one_shot = true
 
 [node name="ThornSpawnTimer" type="Timer" parent="."]
 process_mode = 0
-wait_time = 15.0
+wait_time = 8.0
 one_shot = true
 
 [node name="SpawnTL" type="Position2D" parent="."]
@@ -73,6 +74,10 @@ position = Vector2( 84, 636 )
 
 [node name="SpawnTR" type="Position2D" parent="."]
 position = Vector2( 1190, 152 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "Music"
 
 [connection signal="pressed" from="GameoverLayer/Gameover/RestartButton" to="." method="reset_game"]
 [connection signal="pressed" from="GameoverLayer/Gameover/TitleScreenButton" to="." method="title_screen"]

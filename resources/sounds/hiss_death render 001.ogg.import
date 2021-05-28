@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/hiss_death render 001.ogg-4c4e52805e0215682cdef5c3baabc754.oggstr"
+
+[deps]
+
+source_file="res://resources/sounds/hiss_death render 001.ogg"
+dest_files=[ "res://.import/hiss_death render 001.ogg-4c4e52805e0215682cdef5c3baabc754.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

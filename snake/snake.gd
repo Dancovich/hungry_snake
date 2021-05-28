@@ -6,6 +6,7 @@ signal food_swallowed(snake, qtd_food_swallowed)
 signal dead
 
 const SPEED := 220.0
+#const SPEED := 1.0
 const ROTATION_SPEED := deg2rad(360.0)
 const DEFAULT_SIZE := 0.85
 const SIZE_INCREMENT := 0.08
@@ -14,6 +15,10 @@ export var snake_body: PackedScene = preload("res://snake/snake_body_part.tscn")
 
 onready var _head: SnakeHead = $SnakeHead
 onready var _anim: AnimationPlayer = $AnimationPlayer
+onready var _sound_eat: AudioStreamPlayer2D = $SnakeHead/Sounds/Eat
+onready var _sound_swallow: AudioStreamPlayer2D = $SnakeHead/Sounds/Swallow
+onready var _sound_die: AudioStreamPlayer2D = $SnakeHead/Sounds/Die
+onready var _sound_move: AudioStreamPlayer2D = $SnakeHead/Sounds/Move
 
 var _body_parts := []
 var _speed := Vector2.RIGHT * SPEED
@@ -27,6 +32,8 @@ func set_snake_position(pos: Vector2) -> void:
 		part.position = pos
 
 func increase_size() -> void:
+	_sound_eat.pitch_scale = rand_range(0.98, 1.2)
+	_sound_eat.play()
 	_size += SIZE_INCREMENT
 	_head.scale_head = _size
 
@@ -67,6 +74,9 @@ func get_body_parts() -> Node2D:
 
 func kill() -> void:
 	_queue_kill = true
+	
+	_sound_move.stop()
+	
 	_anim.play("die")
 	yield(_anim, "animation_finished")
 	
@@ -75,8 +85,12 @@ func kill() -> void:
 		part.kill(previous.position.direction_to(part.position))
 		previous = part
 
+	_sound_die.play()
 	_anim.play("dissapear")
+	
 	yield(_anim, "animation_finished")
+	yield(_sound_die, "finished")
+	
 	emit_signal("dead")
 	queue_free()
 
@@ -88,12 +102,14 @@ func _ready() -> void:
 	_head.connect("body_entered", self, "_on_object_contact")
 	
 	add_body_part()
+	_sound_move.play()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if !_queue_kill && \
 			_size > DEFAULT_SIZE && \
 			event.is_action_pressed("eat"):
 		get_tree().set_input_as_handled()
+		_sound_swallow.play()
 		var qtd_food_swallowed := count_size_increments()
 		reset_size()
 		add_body_part()
