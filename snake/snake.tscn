@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://snake/snake_head.tscn" type="PackedScene" id=1]
 [ext_resource path="res://snake/snake.gd" type="Script" id=2]
@@ -7,9 +7,26 @@
 [ext_resource path="res://resources/sounds/hiss_death render 001.ogg" type="AudioStream" id=5]
 [ext_resource path="res://resources/sounds/move render 001.ogg" type="AudioStream" id=6]
 [ext_resource path="res://resources/sounds/death.ogg" type="AudioStream" id=7]
+[ext_resource path="res://tilesets/snake.png" type="Texture" id=8]
 
-[sub_resource type="Animation" id=1]
-resource_name = "die"
+[sub_resource type="CanvasItemMaterial" id=1]
+render_priority = 1
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 2
+particles_anim_v_frames = 4
+particles_anim_loop = false
+
+[sub_resource type="Curve" id=2]
+min_value = 0.1
+max_value = 2.0
+_data = [ Vector2( 0, 0.1 ), 0.0, 4.66782, 0, 0, Vector2( 1, 2 ), 0.123086, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.734375 )
+colors = PoolColorArray( 0.219608, 0.545098, 0.168627, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Animation" id=4]
 length = 0.525
 step = 0.015
 tracks/0/type = "value"
@@ -25,8 +42,7 @@ tracks/0/keys = {
 "values": [ 0.0, 90.0, 180.0, 270.0, 360.0, 450.0, 540.0, 630.0 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "dissapear"
+[sub_resource type="Animation" id=5]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("SnakeHead:scale")
@@ -69,6 +85,7 @@ tracks/2/keys = {
 script = ExtResource( 2 )
 
 [node name="SnakeHead" parent="." instance=ExtResource( 1 )]
+rotation = 6.28319
 
 [node name="Sounds" type="Node2D" parent="SnakeHead"]
 
@@ -97,6 +114,28 @@ stream = ExtResource( 7 )
 volume_db = 1.1
 bus = "Sfx"
 
+[node name="AuraParticles" type="CPUParticles2D" parent="."]
+material = SubResource( 1 )
+emitting = false
+amount = 16
+lifetime = 0.5
+one_shot = true
+local_coords = false
+draw_order = 1
+texture = ExtResource( 8 )
+emission_shape = 1
+emission_sphere_radius = 40.0
+direction = Vector2( 0, -1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 128.65
+linear_accel = -70.0
+scale_amount = 0.1
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+anim_offset = 0.76
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/die = SubResource( 1 )
-anims/dissapear = SubResource( 2 )
+anims/die = SubResource( 4 )
+anims/dissapear = SubResource( 5 )

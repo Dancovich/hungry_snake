@@ -3,6 +3,8 @@ extends Area2D
 
 onready var _anim: AnimationPlayer = $AnimationPlayer
 onready var _sprite: Sprite = $Sprite
+onready var _particles: CPUParticles2D = $PieceParticles
+onready var _kill_timer: Timer = $KillTimer
 
 export var active := false
 
@@ -17,6 +19,11 @@ func activate() -> void:
 func kill() -> void:
 	_queue_kill = true
 	active = false
+	
+	_sprite.visible = false
+	_particles.emitting = true
+	_kill_timer.start()
+	yield(_kill_timer, "timeout")
 	queue_free()
 
 func _ready() -> void:

@@ -168,7 +168,6 @@ func spawn_food() -> void:
 			$Entities.add_child(food)
 			food.position = position
 			food.add_to_group("spawn_obstacles")
-			$Entities.move_child(food, 0)
 
 func _on_food_eaten(snake: Snake, food: Food) -> void:
 	food.kill()

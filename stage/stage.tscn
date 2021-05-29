@@ -63,7 +63,7 @@ one_shot = true
 
 [node name="ThornSpawnTimer" type="Timer" parent="."]
 process_mode = 0
-wait_time = 8.0
+wait_time = 6.8
 one_shot = true
 
 [node name="SpawnTL" type="Position2D" parent="."]

@@ -20,6 +20,7 @@ onready var _sound_swallow: AudioStreamPlayer2D = $SnakeHead/Sounds/Swallow
 onready var _sound_hit: AudioStreamPlayer2D = $SnakeHead/Sounds/Hit
 onready var _sound_die: AudioStreamPlayer2D = $SnakeHead/Sounds/Die
 onready var _sound_move: AudioStreamPlayer2D = $SnakeHead/Sounds/Move
+onready var _aura_particles: CPUParticles2D = $AuraParticles
 
 var _body_parts := []
 var _speed := Vector2.RIGHT * SPEED
@@ -35,8 +36,11 @@ func set_snake_position(pos: Vector2) -> void:
 func increase_size() -> void:
 	_sound_eat.pitch_scale = rand_range(0.98, 1.2)
 	_sound_eat.play()
+		
 	_size += SIZE_INCREMENT
 	_head.scale_head = _size
+	_aura_particles.emission_sphere_radius = 40 * (_size / DEFAULT_SIZE)
+	
 	var increments := count_size_increments()
 	if increments >= 3 && increments < 6:
 		_head.shake(1)
@@ -54,6 +58,7 @@ func reset_size() -> void:
 	_size = DEFAULT_SIZE
 	_head.scale_head = _size
 	_head.shake(0)
+	_aura_particles.emission_sphere_radius = 40
 
 func add_body_part() -> void:
 	var previous: Node2D
@@ -118,9 +123,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			_size > DEFAULT_SIZE && \
 			event.is_action_pressed("eat"):
 		get_tree().set_input_as_handled()
+		
 		_sound_swallow.play()
 		var qtd_food_swallowed := count_size_increments()
+		
 		reset_size()
+		_aura_particles.emitting = true
 		add_body_part()
 		emit_signal("food_swallowed", self, qtd_food_swallowed)
 
@@ -151,6 +159,7 @@ func _physics_process(delta: float) -> void:
 	_speed = _speed.normalized() * SPEED * delta
 	_head.position += _speed
 	_head.rotation = Vector2.DOWN.angle_to(_speed)
+	_aura_particles.position = _head.position
 
 	if !_body_parts.empty():
 		var previous: Node2D = _head
