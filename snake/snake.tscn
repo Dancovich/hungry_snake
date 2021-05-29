@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://snake/snake_head.tscn" type="PackedScene" id=1]
 [ext_resource path="res://snake/snake.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://resources/sounds/swallow render 001.ogg" type="AudioStream" id=4]
 [ext_resource path="res://resources/sounds/hiss_death render 001.ogg" type="AudioStream" id=5]
 [ext_resource path="res://resources/sounds/move render 001.ogg" type="AudioStream" id=6]
+[ext_resource path="res://resources/sounds/death.ogg" type="AudioStream" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "die"
@@ -89,6 +90,11 @@ bus = "Sfx"
 [node name="Die" type="AudioStreamPlayer2D" parent="SnakeHead/Sounds"]
 stream = ExtResource( 5 )
 volume_db = 12.0
+bus = "Sfx"
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="SnakeHead/Sounds"]
+stream = ExtResource( 7 )
+volume_db = 1.1
 bus = "Sfx"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -17,6 +17,7 @@ onready var _head: SnakeHead = $SnakeHead
 onready var _anim: AnimationPlayer = $AnimationPlayer
 onready var _sound_eat: AudioStreamPlayer2D = $SnakeHead/Sounds/Eat
 onready var _sound_swallow: AudioStreamPlayer2D = $SnakeHead/Sounds/Swallow
+onready var _sound_hit: AudioStreamPlayer2D = $SnakeHead/Sounds/Hit
 onready var _sound_die: AudioStreamPlayer2D = $SnakeHead/Sounds/Die
 onready var _sound_move: AudioStreamPlayer2D = $SnakeHead/Sounds/Move
 
@@ -36,6 +37,11 @@ func increase_size() -> void:
 	_sound_eat.play()
 	_size += SIZE_INCREMENT
 	_head.scale_head = _size
+	var increments := count_size_increments()
+	if increments >= 3 && increments < 6:
+		_head.shake(1)
+	elif increments >= 6:
+		_head.shake(2)
 
 func count_size_increments() -> int:
 	var value := (_size - DEFAULT_SIZE) / SIZE_INCREMENT
@@ -47,6 +53,7 @@ func count_body_parts() -> int:
 func reset_size() -> void:
 	_size = DEFAULT_SIZE
 	_head.scale_head = _size
+	_head.shake(0)
 
 func add_body_part() -> void:
 	var previous: Node2D
@@ -76,7 +83,9 @@ func kill() -> void:
 	_queue_kill = true
 	
 	_sound_move.stop()
+	_head.shake(0)
 	
+	_sound_hit.play()
 	_anim.play("die")
 	yield(_anim, "animation_finished")
 	
@@ -153,7 +162,10 @@ func _physics_process(delta: float) -> void:
 			part.rotation = Vector2.DOWN.angle_to(direction)
 			
 			if distance >= previous_distance:
-				direction = direction.normalized() * SPEED * delta
+				var delta_distance := SPEED * 1.5 * delta
+				if delta_distance  > distance - previous_distance:
+					delta_distance = distance - previous_distance
+				direction = direction.normalized() * delta_distance
 				part.position += direction
 			
 			
