@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - release
+    tags:
+      - gogodot_jam_*
 
 jobs:
   export_game:
